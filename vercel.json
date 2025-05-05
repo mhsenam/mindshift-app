@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "next build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": ".next",
   "headers": [
     {
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "source": "/(.*).(jpe?g|png|webp|avif|svg)",
+      "source": "/(.*)\\.(jpe?g|png|webp|avif|svg)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "source": "/(.*).(js|css)",
+      "source": "/(.*)\\.(js|css)",
       "headers": [
         {
           "key": "Cache-Control",

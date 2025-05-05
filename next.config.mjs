@@ -11,23 +11,12 @@ const nextConfig = {
     minimumCacheTTL: 60,
   },
 
-  // Enable SWC minification instead of Terser for faster builds
-  swcMinify: true,
-
   // Configure compiler options
   compiler: {
     // Remove console.log statements in production build
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
-  },
-
-  // Configure performance optimizations
-  experimental: {
-    // Enable optimizeCss for production builds
-    optimizeCss: process.env.NODE_ENV === 'production',
-    // Faster builds in development
-    webpackBuildWorker: process.env.NODE_ENV === 'development',
   },
 
   // Configure headers for security and performance
