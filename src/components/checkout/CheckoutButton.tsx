@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import stripePromise from "@/utils/stripe";
 
 interface CheckoutButtonProps {
   planName: string;
@@ -18,7 +16,6 @@ export default function CheckoutButton({
   buttonClassName,
 }: CheckoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleCheckout = async () => {
     try {

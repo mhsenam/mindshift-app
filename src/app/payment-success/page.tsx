@@ -4,10 +4,23 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+// Define a proper type for payment details
+interface PaymentDetails {
+  id: string;
+  status: string;
+  amount: number;
+  currency: string;
+  plan: string;
+  email?: string;
+  created: number;
+}
+
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const [paymentDetails, setPaymentDetails] = useState<any>(null);
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
