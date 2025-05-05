@@ -24,6 +24,7 @@ export default function Navbar() {
     { name: t("features"), href: "/features" },
     { name: t("meditation"), href: "/meditation" },
     { name: t("focusTools"), href: "/focus" },
+    { name: t("about"), href: "/about" },
     { name: t("pricing"), href: "/pricing" },
   ];
 

@@ -16,8 +16,12 @@ export default function CheckoutButton({
   buttonClassName,
 }: CheckoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleCheckout = async () => {
+    // Reset error state
+    setError(null);
+
     try {
       setIsLoading(true);
 
@@ -36,11 +40,27 @@ export default function CheckoutButton({
 
       // Check if response is ok before trying to parse JSON
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("API error:", response.status, errorText);
-        throw new Error(
-          `API returned ${response.status}: ${response.statusText}`
-        );
+        let errorMessage = `API returned ${response.status}: ${response.statusText}`;
+
+        try {
+          // Try to parse the error message from JSON response
+          const errorData = await response.json();
+          if (errorData && errorData.error) {
+            errorMessage = errorData.error;
+          }
+        } catch {
+          // If response isn't JSON, try to get text content
+          try {
+            const errorText = await response.text();
+            if (errorText) {
+              console.error("API error:", response.status, errorText);
+            }
+          } catch {
+            // If we can't get text either, just use the status message
+          }
+        }
+
+        throw new Error(errorMessage);
       }
 
       // Safely parse JSON response
@@ -56,20 +76,31 @@ export default function CheckoutButton({
     } catch (error) {
       console.error("Error during checkout:", error);
       setIsLoading(false);
-      // You could add error handling UI here
-      alert(
-        "Something went wrong with the checkout process. Please try again."
-      );
+
+      // Set error message for UI
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Unknown error occurred. Please try again later.";
+
+      setError(errorMessage);
+
+      // Also alert for immediate feedback
+      alert("Something went wrong with the checkout process: " + errorMessage);
     }
   };
 
   return (
-    <button
-      onClick={handleCheckout}
-      disabled={isLoading}
-      className={buttonClassName}
-    >
-      {isLoading ? "Processing..." : buttonText}
-    </button>
+    <div>
+      <button
+        onClick={handleCheckout}
+        disabled={isLoading}
+        className={buttonClassName}
+      >
+        {isLoading ? "Processing..." : buttonText}
+      </button>
+
+      {error && <div className="text-red-500 mt-2 text-sm">Error: {error}</div>}
+    </div>
   );
 }

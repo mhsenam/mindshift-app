@@ -11,6 +11,7 @@ interface TranslationKeys {
   meditation: string;
   focusTools: string;
   pricing: string;
+  about: string;
   getStarted: string;
   languageToggle: string;
   mindshift: string;
@@ -94,6 +95,7 @@ const translations: TranslationsType = {
     meditation: "Meditation",
     focusTools: "Focus Tools",
     pricing: "Pricing",
+    about: "About",
     getStarted: "Get Started",
     languageToggle: "فارسی",
     mindshift: "MindShift",
@@ -169,6 +171,7 @@ const translations: TranslationsType = {
     meditation: "مدیتیشن",
     focusTools: "ابزارهای تمرکز",
     pricing: "قیمت‌گذاری",
+    about: "درباره ما",
     getStarted: "شروع کنید",
     languageToggle: "English",
     mindshift: "مایندشیفت",

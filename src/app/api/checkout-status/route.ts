@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 // Initialize Stripe with the secret key from environment variable
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
+const stripeKey =
+  process.env.STRIPE_SECRET_KEY ||
+  "sk_test_51RLN6qD8ah9ocF2pru9HcjomUC9x5xHZAUCXVdPhIjlBfxxKrYahdfxpVyQXOrOqrkG6CfOlKc4fHYqvM14mzHog00jUEGKRzQ";
+
+// Only initialize Stripe if the API key is available
+const stripe = stripeKey ? new Stripe(stripeKey) : null;
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,6 +18,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         { error: "Session ID is required" },
         { status: 400 }
+      );
+    }
+
+    // Validate that Stripe is initialized
+    if (!stripe) {
+      console.error("Stripe client is not initialized");
+      return NextResponse.json(
+        { error: "Payment service is not properly configured" },
+        { status: 500 }
       );
     }
 
@@ -40,7 +54,11 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error retrieving checkout session:", error);
     return NextResponse.json(
-      { error: "Failed to retrieve checkout session" },
+      {
+        error:
+          "Failed to retrieve checkout session: " +
+          (error instanceof Error ? error.message : "Unknown error"),
+      },
       { status: 500 }
     );
   }

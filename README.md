@@ -63,6 +63,27 @@ This project can be easily deployed on [Vercel](https://vercel.com/) or any othe
 npm run build
 ```
 
+## Stripe Integration Setup
+
+To enable payment processing with Stripe, you must set up your environment variables:
+
+1. Create a `.env.local` file in the root directory with:
+   ```
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key_here
+   STRIPE_SECRET_KEY=your_stripe_secret_key_here
+   ```
+
+2. Replace placeholders with your actual Stripe API keys:
+   - Get your API keys from the [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
+   - Use test keys for development (`pk_test_...` and `sk_test_...`)
+   - Use live keys for production (`pk_live_...` and `sk_live_...`)
+
+3. Restart the development server after adding API keys
+
+**⚠️ Important**: Never commit your `.env.local` file to version control as it contains sensitive data.
+
+For more details on the Stripe integration, refer to [STRIPE_SETUP.md](./STRIPE_SETUP.md).
+
 ## License
 
 MIT
