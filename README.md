@@ -1,3 +1,6 @@
+
+![heroo](https://github.com/user-attachments/assets/f337bebb-6d47-4b72-a0f2-dae9facf1271)
+
 # MindShift - Stay Calm & Focused
 
 MindShift is a Next.js application designed to help users stay calm and focused through guided meditation, focus tools, and mindfulness practices.
