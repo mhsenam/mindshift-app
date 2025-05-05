@@ -59,6 +59,37 @@ export default function AudioPlayer({
     };
   }, []);
 
+  // Handle mobile back button for native-like experience
+  useEffect(() => {
+    // Only apply this behavior on mobile
+    if (isDesktop) return;
+
+    // Add a history entry when player is expanded so we can intercept back button
+    if (isExpanded) {
+      // Add a unique state to identify this history entry
+      window.history.pushState({ audioPlayerExpanded: true }, "");
+    }
+
+    // Handle the back button press
+    const handlePopState = (event: PopStateEvent) => {
+      // If the player is expanded, prevent default back behavior and collapse the player
+      if (isExpanded) {
+        // Prevent the default back navigation
+        event.preventDefault();
+        // Collapse the player
+        setIsExpanded(false);
+        // Re-add the history entry we just popped
+        window.history.pushState({ audioPlayerExpanded: true }, "");
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [isExpanded, isDesktop]);
+
   // Disable body scrolling when player is expanded
   useEffect(() => {
     if (typeof window !== "undefined" && document) {
@@ -144,6 +175,7 @@ export default function AudioPlayer({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [volume, isExpanded, duration]);
 
   useEffect(() => {
