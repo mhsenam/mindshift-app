@@ -1,5 +1,7 @@
 "use client";
 
+import CheckoutButton from "@/components/checkout/CheckoutButton";
+
 export default function PricingPage() {
   return (
     <div className="container py-16 md:py-24">
@@ -107,9 +109,9 @@ export default function PricingPage() {
               <span>Select &quot;Singles&quot; meditations</span>
             </li>
           </ul>
-          <button className="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-md transition-all duration-300 hover:shadow-md relative z-10 hover:scale-105 group-hover:animate-pulse">
+          <div className="w-full py-2 px-4 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-md transition-all duration-300 hover:shadow-md relative z-10 hover:scale-105 group-hover:animate-pulse">
             Current Plan
-          </button>
+          </div>
         </div>
 
         {/* Monthly Plan */}
@@ -202,9 +204,13 @@ export default function PricingPage() {
               <span>Research-backed sleep activities</span>
             </li>
           </ul>
-          <button className="w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-all duration-300 relative z-10 hover:scale-110 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] font-semibold">
-            Subscribe Monthly
-          </button>
+          <CheckoutButton
+            planName="MindShift Monthly Premium"
+            planPrice={11.99}
+            interval="month"
+            buttonText="Subscribe Monthly"
+            buttonClassName="w-full py-3 px-4 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-all duration-300 relative z-10 hover:scale-110 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] font-semibold"
+          />
         </div>
 
         {/* Annual Plan */}
@@ -263,9 +269,13 @@ export default function PricingPage() {
               <span>Priority customer support</span>
             </li>
           </ul>
-          <button className="w-full py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-md transition-all duration-300 relative z-10 hover:scale-110 group-hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] font-semibold">
-            Subscribe Yearly
-          </button>
+          <CheckoutButton
+            planName="MindShift Annual Premium"
+            planPrice={69.99}
+            interval="year"
+            buttonText="Subscribe Yearly"
+            buttonClassName="w-full py-3 px-4 bg-purple-500 hover:bg-purple-600 text-white rounded-md transition-all duration-300 relative z-10 hover:scale-110 group-hover:shadow-[0_0_15px_rgba(147,51,234,0.5)] font-semibold"
+          />
         </div>
       </div>
 
@@ -343,9 +353,13 @@ export default function PricingPage() {
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold mb-4">$399.99</div>
-              <button className="w-full py-3 px-6 bg-amber-500 hover:bg-amber-600 text-white rounded-md transition-all duration-500 text-lg relative z-10 hover:scale-110 group-hover:shadow-[0_0_20px_rgba(245,158,11,0.6)] font-semibold">
-                Get Lifetime Access
-              </button>
+              <CheckoutButton
+                planName="MindShift Lifetime Premium"
+                planPrice={399.99}
+                interval="lifetime"
+                buttonText="Get Lifetime Access"
+                buttonClassName="w-full py-3 px-6 bg-amber-500 hover:bg-amber-600 text-white rounded-md transition-all duration-500 text-lg relative z-10 hover:scale-110 group-hover:shadow-[0_0_20px_rgba(245,158,11,0.6)] font-semibold"
+              />
             </div>
           </div>
         </div>
