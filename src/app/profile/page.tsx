@@ -29,7 +29,7 @@ const mockUserProgress = {
 export default function ProfilePage() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState(mockUserProgress);
+  const [userData] = useState(mockUserProgress);
 
   // Simulate loading user data
   useEffect(() => {

@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FiChevronLeft, FiChevronRight, FiStar } from "react-icons/fi";
@@ -100,7 +99,7 @@ export default function TestimonialsSection() {
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Join thousands of people who have transformed their lives with
-            MindShift's mindfulness and focus tools.
+            MindShift&apos;s mindfulness and focus tools.
           </p>
         </div>
 
@@ -140,7 +139,7 @@ export default function TestimonialsSection() {
                       ))}
                     </div>
                     <p className="text-gray-600 dark:text-gray-300 mb-6 flex-grow">
-                      "{testimonial.content}"
+                      &quot;{testimonial.content}&quot;
                     </p>
                     <div className="flex items-center mt-auto">
                       <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 font-semibold">
