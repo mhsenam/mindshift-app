@@ -1,26 +1,105 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
+  --primary: #4f46e5;
+  --primary-light: #818cf8;
+  --secondary: #22c55e;
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --card: #f8fafc;
+  --card-foreground: #171717;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --accent: #22d3ee;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --primary: #6366f1;
+    --primary-light: #818cf8;
+    --secondary: #10b981;
     --background: #0a0a0a;
     --foreground: #ededed;
+    --card: #111827;
+    --card-foreground: #ededed;
+    --border: #1f2937;
+    --input: #1f2937;
+    --accent: #0ea5e9;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply min-h-screen font-sans antialiased;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium transition-colors rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500;
+  }
+
+  .btn-secondary {
+    @apply bg-green-500 text-white hover:bg-green-600 focus:ring-green-400;
+  }
+
+  .btn-outline {
+    @apply border border-gray-200 bg-transparent text-gray-700 hover:bg-gray-50 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800;
+  }
+
+  .card {
+    @apply overflow-hidden bg-white rounded-xl shadow-sm dark:bg-gray-800 border border-gray-200 dark:border-gray-700;
+  }
+  
+  .friendly-title {
+    @apply font-display text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
