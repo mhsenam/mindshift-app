@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiArrowLeft } from "react-icons/fi";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Image from "next/image";
 
 export default function HeroSection() {
   const { t, language } = useLanguage();
@@ -77,10 +78,16 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          <div className="aspect-w-16 aspect-h-9 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="bg-gray-200 dark:bg-gray-700 w-full h-full flex items-center justify-center">
-              {/* This would be your app screenshot or mockup */}
-              <p className="text-gray-500 dark:text-gray-400">App Screenshot</p>
+          <div className="rounded-2xl">
+            <div className="flex justify-center p-4">
+              <Image
+                src="/heroo.png"
+                alt="MindShift App Mockup"
+                width={350}
+                height={300}
+                priority
+                className="rounded-lg"
+              />
             </div>
           </div>
 
