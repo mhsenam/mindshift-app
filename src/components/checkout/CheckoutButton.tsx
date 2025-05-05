@@ -34,14 +34,25 @@ export default function CheckoutButton({
         }),
       });
 
-      const { url } = await response.json();
+      // Check if response is ok before trying to parse JSON
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("API error:", response.status, errorText);
+        throw new Error(
+          `API returned ${response.status}: ${response.statusText}`
+        );
+      }
+
+      // Safely parse JSON response
+      const responseData = await response.json();
+      const { url } = responseData;
+
+      if (!url) {
+        throw new Error("No checkout URL received from API");
+      }
 
       // Redirect to Stripe Checkout
-      if (url) {
-        window.location.href = url;
-      } else {
-        throw new Error("Failed to create checkout session");
-      }
+      window.location.href = url;
     } catch (error) {
       console.error("Error during checkout:", error);
       setIsLoading(false);

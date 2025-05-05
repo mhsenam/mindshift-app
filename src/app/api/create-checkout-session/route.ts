@@ -6,8 +6,38 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 export async function POST(request: NextRequest) {
   try {
-    const req = await request.json();
+    // Validate that Stripe secret key is set
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error("Stripe secret key is not configured");
+      return NextResponse.json(
+        { error: "Payment service is not properly configured" },
+        { status: 500 }
+      );
+    }
+
+    // Parse request body
+    let req;
+    try {
+      req = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
+    // Validate required fields
     const { price, name, interval, success_url, cancel_url } = req;
+
+    if (!price || !name || !interval) {
+      return NextResponse.json(
+        {
+          error:
+            "Missing required fields: price, name, and interval are required",
+        },
+        { status: 400 }
+      );
+    }
 
     // Define line items for checkout
     let lineItems = [];
