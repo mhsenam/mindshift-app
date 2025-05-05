@@ -7,6 +7,12 @@ const nextConfig = {
   images: {
     domains: [],
     formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
     // More aggressive image optimization
     minimumCacheTTL: 60,
   },
@@ -41,6 +47,14 @@ const nextConfig = {
       },
     ];
   },
+
+  // Enable webpack PostCSS support explicitly
+  webpack: (config) => {
+    return config;
+  },
+
+  // Make postcss.config.js file properly loaded
+  postcss: true,
 };
 
 export default nextConfig; 

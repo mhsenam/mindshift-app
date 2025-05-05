@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-outfit)", "var(--font-quicksand)", "sans-serif"],
+        vazir: ["Vazirmatn", "var(--font-outfit)", "var(--font-quicksand)", "sans-serif"],
       },
     },
     container: {

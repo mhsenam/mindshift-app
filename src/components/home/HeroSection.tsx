@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiArrowLeft } from "react-icons/fi";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function HeroSection() {
+  const { t, language } = useLanguage();
+  const isRTL = language === "fa";
+  const DirectionArrow = isRTL ? FiArrowLeft : FiArrowRight;
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,29 +47,26 @@ export default function HeroSection() {
             className="text-4xl md:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6"
             variants={itemVariants}
           >
-            Hey there! Ready to find your
-            <span className="friendly-title"> zen?</span>
+            {t("welcomeHeading")}
           </motion.h1>
 
           <motion.p
             className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8"
             variants={itemVariants}
           >
-            Take a deep breath with MindShift, your friendly companion for daily
-            calm. We&apos;re here to help you pause, refocus, and feel amazing
-            every day.
+            {t("welcomeSubheading")}
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 rtl:space-x-reverse"
             variants={itemVariants}
           >
             <Link href="/sign-up" className="btn btn-primary w-full sm:w-auto">
-              Start Your Journey
-              <FiArrowRight className="ml-2" />
+              {t("getStarted")}
+              <DirectionArrow className={isRTL ? "mr-2" : "ml-2"} />
             </Link>
             <Link href="/features" className="btn btn-outline w-full sm:w-auto">
-              See What&apos;s Inside
+              {t("exploreFeatures")}
             </Link>
           </motion.div>
         </motion.div>
@@ -83,24 +85,32 @@ export default function HeroSection() {
           </div>
 
           {/* Floating UI elements for decoration */}
-          <div className="absolute -top-6 -left-6 md:-top-8 md:-left-8 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <div className="flex items-center space-x-2">
+          <div
+            className={`absolute -top-6 ${
+              isRTL ? "-right-6 md:-right-8" : "-left-6 md:-left-8"
+            } p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg`}
+          >
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <p className="text-sm font-medium">Focus Mode</p>
+              <p className="text-sm font-medium">{t("focusFeature")}</p>
             </div>
           </div>
 
-          <div className="absolute -bottom-6 -right-6 md:-bottom-8 md:-right-8 p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <div className="flex items-center space-x-2">
+          <div
+            className={`absolute -bottom-6 ${
+              isRTL ? "-left-6 md:-left-8" : "-right-6 md:-right-8"
+            } p-3 bg-white dark:bg-gray-800 rounded-lg shadow-lg`}
+          >
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <div className="w-3 h-3 bg-indigo-500 rounded-full"></div>
-              <p className="text-sm font-medium">10M+ Happy Users</p>
+              <p className="text-sm font-medium">10M+ {t("happyUsers")}</p>
             </div>
           </div>
         </motion.div>
 
         <div className="mt-16 md:mt-24 text-center">
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium">
-            LOVED BY WONDERFUL PEOPLE AT
+            {t("lovedByWonderfulPeopleAt")}
           </p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70">
             {["Google", "Microsoft", "Airbnb", "Spotify", "Amazon"].map(

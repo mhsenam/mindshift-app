@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "npm install tailwindcss postcss autoprefixer --save-dev && next build"
+    "vercel-build": "next build"
   },
   "dependencies": {
     "critters": "^0.0.23",

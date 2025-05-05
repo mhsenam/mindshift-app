@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Outfit, Quicksand } from "next/font/google";
 import "./globals.css";
 import Layout from "../components/layout/Layout";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 // Main font for headings and UI elements - Rounded, friendly look
 const outfit = Outfit({
@@ -98,7 +99,9 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${quicksand.variable} font-sans antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
       >
-        <Layout>{children}</Layout>
+        <LanguageProvider>
+          <Layout>{children}</Layout>
+        </LanguageProvider>
       </body>
     </html>
   );

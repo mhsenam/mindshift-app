@@ -4,21 +4,26 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiArrowRight, FiArrowLeft } from "react-icons/fi";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Features", href: "/features" },
-  { name: "Meditation", href: "/meditation" },
-  { name: "Focus Tools", href: "/focus" },
-  { name: "Pricing", href: "/pricing" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const { t, language } = useLanguage();
+
+  const isRTL = language === "fa";
+
+  const navLinks = [
+    { name: t("home"), href: "/" },
+    { name: t("features"), href: "/features" },
+    { name: t("meditation"), href: "/meditation" },
+    { name: t("focusTools"), href: "/focus" },
+    { name: t("pricing"), href: "/pricing" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,6 +45,8 @@ export default function Navbar() {
     setIsOpen(false);
   }, [pathname]);
 
+  const DirectionArrow = isRTL ? FiArrowLeft : FiArrowRight;
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -53,12 +60,12 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
-              MindShift
+              {t("mindshift")}
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
+          <div className="hidden md:flex md:items-center md:space-x-8 rtl:space-x-reverse">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -74,17 +81,20 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Theme Toggle & CTA */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
+          {/* Theme Toggle, Language Toggle & CTA */}
+          <div className="hidden md:flex md:items-center md:space-x-4 rtl:space-x-reverse">
             <ThemeToggle />
+            <LanguageToggle />
             <Link href="/sign-up" className="btn btn-primary">
-              Get Started
+              {t("getStarted")}
+              <DirectionArrow className={isRTL ? "mr-2" : "ml-2"} />
             </Link>
           </div>
 
           {/* Mobile Actions */}
-          <div className="flex items-center space-x-2 md:hidden">
+          <div className="flex items-center space-x-2 rtl:space-x-reverse md:hidden">
             <ThemeToggle />
+            <LanguageToggle />
             <button
               className="p-2 text-gray-700 dark:text-gray-300"
               onClick={() => setIsOpen(!isOpen)}
@@ -120,9 +130,10 @@ export default function Navbar() {
               <div className="pt-3">
                 <Link
                   href="/sign-up"
-                  className="block w-full py-3 text-center text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                  className="flex items-center justify-center w-full py-3 text-center text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                 >
-                  Get Started
+                  {t("getStarted")}
+                  <DirectionArrow className={isRTL ? "mr-2" : "ml-2"} />
                 </Link>
               </div>
             </div>
