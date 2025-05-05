@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import SoundCard from "@/components/meditation/SoundCard";
 import AudioPlayer from "@/components/meditation/AudioPlayer";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 import {
   FiHeadphones,
   FiHeart,
@@ -165,22 +166,56 @@ const soundCategories = [
 
 export default function MeditationPage() {
   const { language } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("nature");
   const [selectedSound, setSelectedSound] = useState<null | {
     title: string;
     audioSrc: string;
     imageSrc: string;
   }>(null);
 
+  // Simulate loading state when page loads or category changes
+  useEffect(() => {
+    setIsLoading(true);
+
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [activeCategory]);
+
   const handleSoundClick = (
     title: string,
     audioSrc: string,
     imageSrc: string
   ) => {
-    setSelectedSound({ title, audioSrc, imageSrc });
+    // If the same sound is already selected, toggle it off and on to restart
+    if (
+      selectedSound &&
+      selectedSound.title === title &&
+      selectedSound.audioSrc === audioSrc
+    ) {
+      setSelectedSound(null);
+      // Use setTimeout to ensure React has time to unmount and remount the component
+      setTimeout(() => {
+        setSelectedSound({ title, audioSrc, imageSrc });
+      }, 50);
+    } else {
+      // Different sound or no sound playing, just set it directly
+      setSelectedSound({ title, audioSrc, imageSrc });
+    }
   };
 
   const closePlayer = () => {
     setSelectedSound(null);
+  };
+
+  const changeCategory = (categoryId: string) => {
+    if (categoryId !== activeCategory) {
+      setActiveCategory(categoryId);
+    }
   };
 
   return (
@@ -196,31 +231,52 @@ export default function MeditationPage() {
         </p>
       </div>
 
-      {soundCategories.map((category) => (
-        <div key={category.id} className="mb-16">
-          <div className="flex items-center mb-6">
-            <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 mr-3">
-              {category.icon}
-            </div>
-            <h2 className="text-2xl font-bold">{category.title}</h2>
-          </div>
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-2 md:gap-4 justify-center mb-10">
+        {soundCategories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => changeCategory(category.id)}
+            className={`flex items-center px-4 py-2 rounded-full text-sm md:text-base transition-colors ${
+              activeCategory === category.id
+                ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            }`}
+          >
+            <span className="mr-2">{category.icon}</span>
+            {category.title}
+          </button>
+        ))}
+      </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {category.sounds.map((sound) => (
-              <SoundCard
-                key={sound.id}
-                title={sound.title}
-                description={sound.description}
-                duration={sound.duration}
-                imageSrc={sound.imageSrc}
-                onClick={() =>
-                  handleSoundClick(sound.title, sound.audioSrc, sound.imageSrc)
-                }
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        soundCategories
+          .filter((category) => category.id === activeCategory)
+          .map((category) => (
+            <div key={category.id} className="mb-16 animate-fade-in">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {category.sounds.map((sound) => (
+                  <SoundCard
+                    key={sound.id}
+                    title={sound.title}
+                    description={sound.description}
+                    duration={sound.duration}
+                    imageSrc={sound.imageSrc}
+                    onClick={() =>
+                      handleSoundClick(
+                        sound.title,
+                        sound.audioSrc,
+                        sound.imageSrc
+                      )
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+      )}
 
       {selectedSound && (
         <AudioPlayer

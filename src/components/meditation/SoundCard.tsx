@@ -1,6 +1,7 @@
 "use client";
 
 import { FiPlay, FiClock } from "react-icons/fi";
+import { useState, useEffect, useRef } from "react";
 
 interface SoundCardProps {
   title: string;
@@ -17,10 +18,68 @@ export default function SoundCard({
   imageSrc,
   onClick,
 }: SoundCardProps) {
+  // Track touch events to distinguish between scrolling and tapping
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isTouchMoveRef = useRef(false);
+
+  // Clean up any pending timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartY(e.touches[0].clientY);
+    setTouchStartX(e.touches[0].clientX);
+    isTouchMoveRef.current = false;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartY === null || touchStartX === null) return;
+
+    const yDiff = Math.abs(e.touches[0].clientY - touchStartY);
+    const xDiff = Math.abs(e.touches[0].clientX - touchStartX);
+
+    // If the user has moved more than 10px in any direction, consider it a scroll
+    if (yDiff > 10 || xDiff > 10) {
+      isTouchMoveRef.current = true;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTouchStartY(null);
+    setTouchStartX(null);
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    // For mobile: if this was part of a scroll, don't trigger the click
+    if (isTouchMoveRef.current) {
+      e.preventDefault();
+      return;
+    }
+
+    // Small delay to ensure it's a deliberate click and not part of scrolling
+    if (clickTimeoutRef.current) {
+      clearTimeout(clickTimeoutRef.current);
+    }
+
+    clickTimeoutRef.current = setTimeout(() => {
+      onClick();
+    }, 10);
+  };
+
   return (
     <div
       className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition overflow-hidden cursor-pointer"
-      onClick={onClick}
+      onClick={handleClick}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div className="aspect-w-16 aspect-h-9 bg-gray-100 dark:bg-gray-900">
         {imageSrc && (
