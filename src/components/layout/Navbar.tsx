@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiMenu, FiX, FiArrowRight, FiArrowLeft } from "react-icons/fi";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function Navbar() {
@@ -58,7 +60,19 @@ export default function Navbar() {
       <div className="container">
         <nav className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link
+            href="/"
+            className="flex items-center space-x-2 rtl:space-x-reverse"
+          >
+            <div className="relative w-6 h-6">
+              <Image
+                src="/favicon-32x32.png"
+                alt="MindShift Logo"
+                width={24}
+                height={24}
+                className="w-full h-full object-contain rounded-[30%]"
+              />
+            </div>
             <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-indigo-400 bg-clip-text text-transparent">
               {t("mindshift")}
             </span>
@@ -84,7 +98,7 @@ export default function Navbar() {
           {/* Theme Toggle, Language Toggle & CTA */}
           <div className="hidden md:flex md:items-center md:space-x-4 rtl:space-x-reverse">
             <ThemeToggle />
-            <LanguageToggle />
+            {/* <LanguageToggle /> */}
             <Link href="/sign-up" className="btn btn-primary">
               {t("getStarted")}
               <DirectionArrow className={isRTL ? "mr-2" : "ml-2"} />
@@ -94,7 +108,7 @@ export default function Navbar() {
           {/* Mobile Actions */}
           <div className="flex items-center space-x-2 rtl:space-x-reverse md:hidden">
             <ThemeToggle />
-            <LanguageToggle />
+            {/* <LanguageToggle /> */}
             <button
               className="p-2 text-gray-700 dark:text-gray-300"
               onClick={() => setIsOpen(!isOpen)}
