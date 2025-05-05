@@ -5,9 +5,12 @@ const nextConfig = {
 
   // Optimize images from popular image hosting services
   images: {
-    domains: [],
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
       {
         protocol: "https",
         hostname: "**",
@@ -52,9 +55,6 @@ const nextConfig = {
   webpack: (config) => {
     return config;
   },
-
-  // Make postcss.config.js file properly loaded
-  postcss: true,
 };
 
 export default nextConfig; 

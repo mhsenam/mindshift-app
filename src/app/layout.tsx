@@ -64,11 +64,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // This script runs before React hydration
               (function() {
                 try {
                   var mode = localStorage.getItem('theme');
@@ -78,7 +79,9 @@ export default function RootLayout({
                   } else {
                     document.documentElement.classList.remove('dark');
                   }
-                } catch (e) {}
+                } catch (e) {
+                  // If localStorage is not available, do nothing
+                }
               })();
 
               // Disable double-tap to zoom
