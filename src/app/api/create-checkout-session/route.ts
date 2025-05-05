@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// Initialize Stripe with the secret key
-const stripe = new Stripe(
-  "sk_test_51RLN6qD8ah9ocF2pru9HcjomUC9x5xHZAUCXVdPhIjlBfxxKrYahdfxpVyQXOrOqrkG6CfOlKc4fHYqvM14mzHog00jUEGKRzQ"
-);
+// Initialize Stripe with the secret key from environment variable
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 export async function POST(request: NextRequest) {
   try {
