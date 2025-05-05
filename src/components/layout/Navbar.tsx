@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import LanguageToggle from "@/components/ui/LanguageToggle";
+// lang
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
