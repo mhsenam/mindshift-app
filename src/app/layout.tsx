@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Quicksand } from "next/font/google";
 import "./globals.css";
-import Layout from "@/components/layout/Layout";
+import Layout from "../components/layout/Layout";
 
 // Main font for headings and UI elements - Rounded, friendly look
 const outfit = Outfit({

@@ -34,15 +34,20 @@
   html {
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   body {
-    @apply min-h-screen font-sans antialiased;
+    @apply min-h-screen antialiased;
     background: var(--background);
     color: var(--foreground);
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
   }
 }
 
@@ -70,9 +75,9 @@
   .card {
     @apply overflow-hidden bg-white rounded-xl shadow-sm dark:bg-gray-800 border border-gray-200 dark:border-gray-700;
   }
-  
+
   .friendly-title {
-    @apply font-display text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400;
+    @apply font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400;
   }
 }
 
